@@ -162,3 +162,23 @@ body {
   height: auto;
   object-fit: cover;
 }
+
+/* Adicione estas novas regras ao final do seu arquivo Auth.css */
+
+.password-group {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-group input {
+  padding-right: 40px; /* Adiciona espaço para o ícone não sobrepor o texto */
+}
+
+.password-toggle-icon {
+  position: absolute;
+  right: 15px;
+  cursor: pointer;
+  color: #999;
+  user-select: none; /* Impede que o ícone seja selecionado ao clicar */
+}
