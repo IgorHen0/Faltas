@@ -1,0 +1,164 @@
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  background-color: #f8f9fa;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.auth-container {
+  display: flex;
+  background-color: #fff;
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  max-width: 1000px;
+  width: 100%;
+}
+
+.auth-form {
+  padding: 40px 60px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.auth-header-link {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-weight: 500;
+}
+
+.auth-title {
+  font-size: 2em;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.auth-subtitle {
+  color: #666;
+  margin-bottom: 30px;
+}
+
+.input-group {
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #555;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+
+.forgot-password {
+    position: absolute;
+    right: 0;
+    top: 0;
+    font-size: 0.9em;
+    color: #C8102E;
+    text-decoration: none;
+}
+
+.terms, .remember-me {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  font-size: 0.9em;
+}
+
+.terms input, .remember-me input {
+  margin-right: 10px;
+}
+
+.terms a {
+  color: #5a7a5a;
+  text-decoration: none;
+}
+
+.auth-button {
+  width: 100%;
+  padding: 15px;
+  border: none;
+  background-color: #C8102E;
+  color: white;
+  border-radius: 8px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.auth-button:hover {
+  background-color: #C8102E;
+}
+
+.separator {
+  text-align: center;
+  margin: 20px 0;
+  color: #aaa;
+}
+
+.social-login {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.social-button {
+  flex: 1;
+  padding: 12px;
+  border: 1px solid #ddd;
+  background-color: #fff;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 0.9em;
+}
+
+.social-button img {
+    width: 16px;
+    height: 16px;
+}
+
+.auth-footer {
+  text-align: center;
+  font-size: 0.9em;
+  color: #000;
+}
+
+.auth-footer a {
+  color: #C8102E;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.auth-image {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #eef2ed;
+}
+
+.auth-image img {
+  max-width: 100%;
+  height: auto;
+  object-fit: cover;
+}
