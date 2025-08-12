@@ -1,0 +1,6 @@
+@faltas_HostAddress = http://localhost:5077
+
+GET {{faltas_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
