@@ -2,6 +2,16 @@ import React from 'react';
 import './Dashboard.css';
 
 function Dashboard() {
+    const now = new Date();
+    const year = now.getFullYear().toString().slice(-2);
+    const month = now.getMonth() + 1;
+    let semestre;
+    if (month >= 1 && month <= 7) {
+        semestre = `${year}/1`;
+    } else {
+        semestre = `${year}/2`;
+    }
+
     return (
         <div className="dashboard-container">
             <aside className="sidebar">
@@ -31,7 +41,7 @@ function Dashboard() {
                             </div>
                             <div className="widget-content">
                                 <p className="widget-title">Semestre Letivo</p>
-                                <p className="widget-value">25/2</p>
+                                <p className="widget-value">{semestre}</p>
                             </div>
                         </div>
                         <div className="widget">
