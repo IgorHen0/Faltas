@@ -18,7 +18,7 @@ function Dashboard() {
         <div className="dashboard-container">
             <aside className="sidebar">
                 <div className="user-icon">
-                    <span>&#x1F464;</span> 
+                    <span><Link to="/dashboard">&#x1F464;</Link></span>
                 </div>
                 <nav className="sidebar-nav">
                     <ul>

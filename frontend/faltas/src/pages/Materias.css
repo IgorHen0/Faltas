@@ -1,0 +1,185 @@
+select {
+    color: #000;
+}
+
+input {
+    color: #000
+}
+
+.faltas-layout {
+  display: flex;
+  flex-wrap: wrap; /* Permite que as colunas quebrem em telas menores */
+  gap: 2.5rem; /* Espaçamento entre as colunas */
+  align-items: flex-start;
+}
+
+/* Estilo base para ambas as colunas */
+.card-column {
+  background-color: #fff;
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  flex: 1; /* Faz com que ambas as colunas cresçam igualmente */
+  min-width: 300px; /* Largura mínima para responsividade */
+}
+
+.card-column h2 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    font-size: 1.5rem;
+    color: #333;
+}
+
+.card-subtitle {
+    margin-top: 0;
+    margin-bottom: 2rem;
+    color: #6c757d;
+}
+
+/* Lista da coluna esquerda */
+.menu-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.menu-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.menu-list li:last-child {
+  border-bottom: none;
+}
+
+.menu-item-content {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.menu-icon {
+  font-size: 1.5rem;
+  color: #ffc107; /* Cor da estrela */
+}
+
+.menu-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.menu-label {
+  font-weight: 500;
+  color: #333;
+}
+
+.menu-description {
+  font-size: 0.9em;
+  color: #6c757d;
+}
+
+.menu-extra {
+    font-weight: 500;
+    color: #333;
+}
+
+/* Formulário da coluna direita */
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #555;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-sizing: border-box;
+  background-color: #f8f9fa;
+  font-family: inherit;
+  font-size: 1em;
+}
+
+.form-group textarea {
+    resize: vertical;
+}
+
+.submit-button {
+  width: 100%;
+  padding: 15px;
+  border: none;
+  background-color: #343a40; /* Cor escura do botão */
+  color: white;
+  border-radius: 8px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.submit-button:hover {
+  background-color: #495057;
+}
+
+/* Card principal da página */
+.materias-content-area {
+  background-color: #fff;
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* Container para os filtros */
+.materias-filters {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  align-items: flex-end; /* Alinha os itens na base */
+}
+
+.materias-filters .form-group {
+  flex: 1; /* Inputs crescem para preencher o espaço */
+  min-width: 150px; /* Largura mínima antes de quebrar a linha */
+  margin-bottom: 0; /* Remove a margem padrão para alinhar com o botão */
+}
+
+/* Container para o seletor de tempo */
+.time-selector {
+  display: flex;
+  gap: 0.5rem;
+}
+
+/* Estilo específico para os selects de tempo para que eles se ajustem dentro do flex-container */
+.time-selector select {
+  flex: 1;
+}
+
+/* Botão para adicionar o tempo */
+.add-time-button {
+  padding: 12px 15px;
+  border: none;
+  background-color: #343a40;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  font-weight: bold;
+  height: 48.5px;
+  line-height: 1;
+  transition: background-color 0.3s;
+}
+
+.add-time-button:hover {
+  background-color: #495057;
+}
