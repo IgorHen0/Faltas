@@ -9,7 +9,8 @@ public static class AlunoEndpoints
     {
         app.MapPost("/api/aluno", async (AlunoDto aluno, MySqlConnection db) =>
         {
-            if (string.IsNullOrWhiteSpace(aluno.nome_aluno) || string.IsNullOrWhiteSpace(aluno.email) || string.IsNullOrWhiteSpace(aluno.senha))
+            if (string.IsNullOrWhiteSpace(aluno.nome_aluno) || string.IsNullOrWhiteSpace(aluno.email) || string.IsNullOrWhiteSpace(aluno.senha) || 
+                string.IsNullOrWhiteSpace(aluno.curso))
             {
                 return Results.BadRequest("Todos os campos são obrigatórios.");
             }
@@ -32,10 +33,12 @@ public static class AlunoEndpoints
 
             var senhaSegura = $"{hashedPassword}:{saltString}";
 
+            string curso = aluno.curso.ToUpper();
+
             try
             {
-                var sql = "INSERT INTO aluno (nome_aluno, email, senha) VALUES (@Nome, @Email, @Senha)";
-                var result = await db.ExecuteAsync(sql, new { Nome = aluno.nome_aluno, Email = aluno.email, Senha = senhaSegura });
+                var sql = "INSERT INTO aluno (nome_aluno, email, senha, curso) VALUES (@Nome, @Email, @Senha, @Curso)";
+                var result = await db.ExecuteAsync(sql, new { Nome = aluno.nome_aluno, Email = aluno.email, Senha = senhaSegura, Curso = curso });
 
                 if (result > 0)
                 {

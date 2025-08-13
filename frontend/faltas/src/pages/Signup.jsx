@@ -6,6 +6,7 @@ function Signup({ onNavigate }) {
     const [nome, setNome] = useState('');
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
+    const [curso, setCurso] = useState('');
     const [showPassword, setShowPassword] = useState(false);
 
     const togglePasswordVisibility = () => {
@@ -23,7 +24,8 @@ function Signup({ onNavigate }) {
         const aluno = {
             nome_aluno: nome,
             email: email,
-            senha: senha
+            senha: senha,
+            curso: curso
         };
 
         try {
@@ -61,6 +63,10 @@ function Signup({ onNavigate }) {
                     <div className="input-group">
                         <label htmlFor="email">Email</label>
                         <input type="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Digite seu email" />
+                    </div>
+                    <div className="input-group">
+                        <label htmlFor="curso">Curso</label>
+                        <input type="text" id="curso" value={curso} onChange={(e) => setCurso(e.target.value)} placeholder="Digite seu curso" />
                     </div>
                     <div className="input-group">
                         <label htmlFor="password">Senha</label>

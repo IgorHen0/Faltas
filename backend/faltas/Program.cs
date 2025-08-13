@@ -36,5 +36,5 @@ app.MapLoginEndpoints();
 
 app.Run();
 
-public record AlunoDto(string nome_aluno, string email, string senha);
+public record AlunoDto(string nome_aluno, string email, string senha, string curso);
 public record LoginDto(string email, string senha);
