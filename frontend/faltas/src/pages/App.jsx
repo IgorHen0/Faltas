@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Login from './Login';
 import Signup from './Signup';
+import Dashboard from './Dashboard';
 
 function App() {
 
@@ -14,7 +15,11 @@ function App() {
     return <Login onNavigate={navigate} />;
   }
 
+  if (currentPage === 'dashboard') {
+    return <Dashboard />;
+  }
+
   return <Signup onNavigate={navigate} />;
 }
 
-export default App
+export default App;
