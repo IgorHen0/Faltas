@@ -1,7 +1,9 @@
 import { useState } from 'react';
+import { toast } from 'react-toastify';
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import './Auth.css';
 
-function Login({ onNavigate }) {
+function Login() {
 
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
@@ -11,16 +13,11 @@ function Login({ onNavigate }) {
         setShowPassword(!showPassword);
     }
 
-    const handleNavigate = (e) => {
-        e.preventDefault();
-        onNavigate('signup');
-    }
-
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         if (!email || !senha) {
-            alert('Por favor, preencha todos os campos.');
+            toast.warn('Por favor, preencha todos os campos.');
             return;
         }
 
@@ -39,15 +36,15 @@ function Login({ onNavigate }) {
             });
 
             if (response.ok) {
-                alert('Login realizado com sucesso!');
-                onNavigate('dashboard');
+                toast.success('Login realizado com sucesso!');
+                window.location.href = '/dashboard';
             } else {
                 const errorData = await response.json();
-                alert(`Erro ao fazer login: ${errorData.message}`);
+                toast.error(`Erro ao fazer login: ${errorData.message}`);
             }
         } catch (error) {
             console.error('Erro ao conectar com o servidor:', error);
-            alert('Erro ao conectar com o servidor. Tente novamente mais tarde.');
+            toast.error('Erro ao conectar com o servidor. Tente novamente mais tarde.');
         }
     }
 
@@ -75,7 +72,7 @@ function Login({ onNavigate }) {
                     <button type="submit" className="auth-button">Login</button>
                 </form>
                 <p className="auth-footer">
-                    Não tem uma conta? <a href="#" onClick={handleNavigate}>Cadastrar</a>
+                    Não tem uma conta? <Link to="/signup">Cadastrar</Link>
                 </p>
             </div>
             <div className="auth-image">

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
+import { toast } from 'react-toastify';
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
-import Login from './Login';
 import './Auth.css';
 
 function Signup() {
@@ -35,60 +35,55 @@ function Signup() {
             });
 
             if(response.ok) {
-                alert('Cadastro realizado com sucesso!');
+                toast.success('Cadastro realizado com sucesso!');
                 onNavigate('login');
             } else {
                 const errorData = await response.json();
-                alert(`Erro ao cadastrar: ${errorData.message} || Tente novamente.`);
+                toast.error(`Erro ao cadastrar: ${errorData.message} || Tente novamente.`);
             }
         } catch (error) {
             console.error('Erro ao conectar com o servidor:', error);
-            alert('Erro ao conectar com o servidor. Tente novamente mais tarde.');
+            toast.error('Erro ao conectar com o servidor. Tente novamente mais tarde.');
         }
     };
 
     return (
-        <BrowserRouter>
-            <div className="auth-container">
-                <div className="auth-form">
-                    <p className="auth-header-link">Sign up</p>
-                    <h2 className="auth-title">Cadastro</h2>
-                    <form onSubmit={handleSubmit}>
-                        <div className="input-group">
-                            <label htmlFor="name">Nome</label>
-                            <input type="text" id="name" value={nome} onChange={(e) => setNome(e.target.value)} placeholder="Digite seu nome" />
+        <div className="auth-container">
+            <div className="auth-form">
+                <p className="auth-header-link">Sign up</p>
+                <h2 className="auth-title">Cadastro</h2>
+                <form onSubmit={handleSubmit}>
+                    <div className="input-group">
+                        <label htmlFor="name">Nome</label>
+                        <input type="text" id="name" value={nome} onChange={(e) => setNome(e.target.value)} placeholder="Digite seu nome" />
+                    </div>
+                    <div className="input-group">
+                        <label htmlFor="email">Email</label>
+                        <input type="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Digite seu email" />
+                    </div>
+                    <div className="input-group">
+                        <label htmlFor="curso">Curso</label>
+                        <input type="text" id="curso" value={curso} onChange={(e) => setCurso(e.target.value)} placeholder="Digite seu curso" />
+                    </div>
+                    <div className="input-group">
+                        <label htmlFor="password">Senha</label>
+                        <div className="password-group">
+                            <input type={showPassword ? "text" : "password"} value={senha} onChange={(e) => setSenha(e.target.value)} id="password" placeholder="******" />
+                            <span className="password-toggle-icon" onClick={togglePasswordVisibility}>
+                                {showPassword ? "🙈" : "👁️"}
+                            </span>
                         </div>
-                        <div className="input-group">
-                            <label htmlFor="email">Email</label>
-                            <input type="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Digite seu email" />
-                        </div>
-                        <div className="input-group">
-                            <label htmlFor="curso">Curso</label>
-                            <input type="text" id="curso" value={curso} onChange={(e) => setCurso(e.target.value)} placeholder="Digite seu curso" />
-                        </div>
-                        <div className="input-group">
-                            <label htmlFor="password">Senha</label>
-                            <div className="password-group">
-                                <input type={showPassword ? "text" : "password"} value={senha} onChange={(e) => setSenha(e.target.value)} id="password" placeholder="******" />
-                                <span className="password-toggle-icon" onClick={togglePasswordVisibility}>
-                                    {showPassword ? "🙈" : "👁️"}
-                                </span>
-                            </div>
-                        </div>
-                        <button type="submit" className="auth-button">Cadastrar</button>
-                    </form>
-                    <p className="auth-footer">
-                        Já tem uma conta? <Link to="/Login">Entrar</Link>
-                    </p>
-                </div>
-                <div className="auth-image">
-                    <img src="../ufmg.jpg" alt="UFMG" />
-                </div>
-                <Routes>
-                    <Route path="/Login" element={<Login />} />
-                </Routes>
+                    </div>
+                    <button type="submit" className="auth-button">Cadastrar</button>
+                </form>
+                <p className="auth-footer">
+                    Já tem uma conta? <Link to="/Login">Entrar</Link>
+                </p>
             </div>
-        </BrowserRouter>
+            <div className="auth-image">
+                <img src="/ufmg.jpg" alt="UFMG" />
+            </div>
+        </div>
     );
 }
 
