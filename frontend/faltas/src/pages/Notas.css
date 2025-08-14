@@ -1,0 +1,113 @@
+/* Layout principal com duas colunas */
+.notas-layout {
+  display: flex;
+  flex-wrap: wrap; /* Permite que as colunas quebrem em telas menores */
+  gap: 2.5rem; /* Espaçamento entre as colunas */
+  align-items: flex-start;
+}
+
+/* Estilo base para ambas as colunas */
+.card-column {
+  background-color: #fff;
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  flex: 1; /* Faz com que ambas as colunas cresçam igualmente */
+  min-width: 300px; /* Largura mínima para responsividade */
+}
+
+.card-column h2 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    font-size: 1.5rem;
+    color: #333;
+}
+
+/* Lista da coluna esquerda */
+.menu-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.menu-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.menu-list li:last-child {
+  border-bottom: none;
+}
+
+.menu-item-content {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.menu-icon {
+  font-size: 1.5rem;
+  color: #ffc107; /* Cor da estrela */
+}
+
+.menu-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.menu-label {
+  font-weight: 500;
+  color: #333;
+}
+
+.menu-description {
+  font-size: 0.9em;
+  color: #6c757d;
+}
+
+.menu-extra {
+    font-weight: 500;
+    color: #333;
+}
+
+/* Formulário da coluna direita */
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #555;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-sizing: border-box;
+  background-color: #f8f9fa;
+  font-family: inherit;
+}
+
+.submit-button {
+  width: 100%;
+  padding: 15px;
+  border: none;
+  background-color: #343a40; /* Cor escura do botão */
+  color: white;
+  border-radius: 8px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.submit-button:hover {
+  background-color: #495057;
+}

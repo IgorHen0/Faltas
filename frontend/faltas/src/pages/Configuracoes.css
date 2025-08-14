@@ -1,0 +1,132 @@
+/* Estilos gerais da página de Configurações */
+.settings-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2.5rem;
+}
+
+.user-info h2 {
+    margin: 0 0 0.25rem;
+    color: #333;
+    font-size: 1.8rem;
+}
+
+.user-info p {
+    margin: 0;
+    color: #6c757d;
+}
+
+.save-button {
+    padding: 0.8rem 1.5rem;
+    background-color: #C8102E; /* Vermelho institucional */
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.save-button:hover {
+    background-color: #a00d25; /* Tom mais escuro do vermelho */
+}
+
+/* Navegação por abas */
+.settings-nav {
+    display: flex;
+    gap: 1rem;
+    border-bottom: 2px solid #ddd;
+    margin-bottom: 2rem;
+}
+
+.tab-button {
+    padding: 1rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 500;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    color: #6c757d;
+    position: relative;
+    top: 2px; /* Alinha com a borda inferior */
+}
+
+.tab-button.active {
+    color: #C8102E;
+    border-bottom: 2px solid #C8102E;
+}
+
+/* Card de conteúdo */
+.settings-card {
+    background-color: #fff;
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.settings-card h3 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    font-size: 1.5rem;
+    color: #333;
+}
+
+.settings-card p {
+    margin-top: 0;
+    margin-bottom: 2rem;
+    color: #6c757d;
+}
+
+/* Estilos de formulário */
+.personal-info-form .form-row {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.form-group {
+    flex: 1;
+    margin-bottom: 1.5rem;
+}
+
+.form-group:last-child {
+    margin-bottom: 0;
+}
+
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #555;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-sizing: border-box;
+    background-color: #f8f9fa;
+    font-family: inherit;
+    font-size: 1em;
+}
+
+.update-password-button {
+    width: auto;
+    padding: 12px 25px;
+    border: none;
+    background-color: #343a40;
+    color: white;
+    border-radius: 8px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 1rem;
+}
+
+.update-password-button:hover {
+    background-color: #495057;
+}

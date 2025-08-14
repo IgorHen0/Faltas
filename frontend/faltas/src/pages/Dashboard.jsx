@@ -23,11 +23,11 @@ function Dashboard() {
                 <nav className="sidebar-nav">
                     <ul>
                         <li><Link to="/Faltas">Faltas</Link></li>
-                        <li><a href="#">Matérias</a></li>
-                        <li><a href="#">Notas</a></li>
-                        <li><a href="#">Provas</a></li>
-                        <li><a href="#">Trabalhos</a></li>
-                        <li><a href="#">Configurações</a></li>
+                        <li><Link to="/Materias">Matérias</Link></li>
+                        <li><Link to="/Notas">Notas</Link></li>
+                        <li><Link to="/Provas">Provas</Link></li>
+                        <li><Link to="/Trabalhos">Trabalhos</Link></li>
+                        <li><Link to="/Configuracoes">Configurações</Link></li>
                     </ul>
                 </nav>
             </aside>

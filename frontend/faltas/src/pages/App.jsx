@@ -6,6 +6,10 @@ import Signup from './Signup';
 import Dashboard from './Dashboard';
 import Faltas from './Faltas';
 import Materias from './Materias';
+import Notas from './Notas';
+import Provas from './Provas';
+import Trabalhos from './Trabalhos';
+import Configuracoes from './Configuracoes';
 
 function App() {
   return (
@@ -28,8 +32,12 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/faltas" element={<Faltas />} />
         <Route path="/materias" element={<Materias />} />
+        <Route path="/notas" element={<Notas />} />
+        <Route path="/provas" element={<Provas />} />
+        <Route path="/trabalhos" element={<Trabalhos />} />
+        <Route path="/configuracoes" element={<Configuracoes />} />
         {/* Redireciona para /signup por padrão */}
-        <Route path="*" element={<Signup />} />
+        <Route path="*" element={<Login />} />
       </Routes>
     </Router>
   );
