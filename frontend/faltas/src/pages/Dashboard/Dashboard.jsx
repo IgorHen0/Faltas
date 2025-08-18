@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import './Dashboard.css';
-import Faltas from './Faltas';
+import Faltas from '../Faltas/Faltas';
 
 function Dashboard() {
     const now = new Date();

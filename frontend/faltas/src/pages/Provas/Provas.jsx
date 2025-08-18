@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './Dashboard.css';
-import './Notas.css';
+import '../Dashboard/Dashboard.css';
+import '../Notas/Notas.css';
 
 function Notas() {
   return (
@@ -23,7 +23,7 @@ function Notas() {
       </aside>
       <main className="main-content">
         <header className="main-header">
-          <h1>Notas</h1>
+          <h1>Provas</h1>
         </header>
 
         <div className="notas-layout">
@@ -94,12 +94,16 @@ function Notas() {
                 </select>
               </div>
               <div className="form-group">
-                <label htmlFor="nota">Nota</label>
+                <label htmlFor="nota">Avaliação</label>
                 <input type="text" id="nota" placeholder="Value" />
               </div>
               <div className="form-group">
-                <label htmlFor="avaliacao">Avaliação</label>
-                <input type="text" id="avaliacao" placeholder="Value" />
+                <label htmlFor="avaliacao">Dia</label>
+                <input type="date" id="avaliacao" placeholder="Value" />
+              </div>
+              <div className="form-group">
+                <label htmlFor="nota">Pontuação</label>
+                <input type="text" id="nota" placeholder="Quantos pontos vale?" />
               </div>
               <button type="submit" className="submit-button">Enviar</button>
             </form>

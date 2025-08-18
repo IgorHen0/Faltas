@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
-import './Auth.css';
+import './Login/Auth.css';
 
 function Signup() {
 
@@ -18,7 +18,7 @@ function Signup() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const aluno = {
+        const userData = {
             nome_aluno: nome,
             email: email,
             senha: senha,
@@ -26,25 +26,13 @@ function Signup() {
         };
 
         try {
-            const response = await fetch('http://localhost:5077/api/aluno', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(aluno)
-            });
-
-            if(response.ok) {
-                toast.success('Cadastro realizado com sucesso!');
-                onNavigate('login');
-            } else {
-                const errorData = await response.json();
-                toast.error(`Erro ao cadastrar: ${errorData.message} || Tente novamente.`);
-            }
+            await signupUser(userData);
+            toast.success('Cadastro realizado com sucesso!');
+            window.location.href = '/login';
         } catch (error) {
-            console.error('Erro ao conectar com o servidor:', error);
-            toast.error('Erro ao conectar com o servidor. Tente novamente mais tarde.');
+            toast.error(`Erro ao cadastrar: ${error.message}`);
         }
+
     };
 
     return (

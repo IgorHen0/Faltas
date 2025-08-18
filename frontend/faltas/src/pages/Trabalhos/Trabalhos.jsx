@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './Dashboard.css';
-import './Notas.css';
+import '../Dashboard/Dashboard.css';
+import '../Notas/Notas.css';
 
 function Notas() {
   return (

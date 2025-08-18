@@ -1,15 +1,15 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Login from './Login';
-import Signup from './Signup';
-import Dashboard from './Dashboard';
-import Faltas from './Faltas';
-import Materias from './Materias';
-import Notas from './Notas';
-import Provas from './Provas';
-import Trabalhos from './Trabalhos';
-import Configuracoes from './Configuracoes';
+import Login from './pages/Login/Login';
+import Signup from './pages/Signup';
+import Dashboard from './pages/Dashboard/Dashboard';
+import Faltas from './pages/Faltas/Faltas';
+import Materias from './pages/Materias/Materias';
+import Notas from './pages/Notas/Notas';
+import Provas from './pages/Provas/Provas';
+import Trabalhos from './pages/Trabalhos/Trabalhos';
+import Configuracoes from './pages/Configuracoes/Configuracoes';
 
 function App() {
   return (

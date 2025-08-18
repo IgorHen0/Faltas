@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import { loginUser } from '../../services/api';
 import './Auth.css';
 
 function Login() {
@@ -27,24 +28,11 @@ function Login() {
         };
 
         try {
-            const response = await fetch('http://localhost:5077/api/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(credentials)
-            });
-
-            if (response.ok) {
-                toast.success('Login realizado com sucesso!');
-                window.location.href = '/dashboard';
-            } else {
-                const errorData = await response.json();
-                toast.error(`Erro ao fazer login: ${errorData.message}`);
-            }
+            await loginUser(credentials);
+            toast.success('Login realizado com sucesso!');
+            window.location.href = '/dashboard';
         } catch (error) {
-            console.error('Erro ao conectar com o servidor:', error);
-            toast.error('Erro ao conectar com o servidor. Tente novamente mais tarde.');
+            toast.error(`Erro ao fazer login: ${error.message}`);
         }
     }
 

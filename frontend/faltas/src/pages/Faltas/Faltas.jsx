@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
-import './Dashboard.css';
-import './Faltas.css';
+import '../Dashboard/Dashboard.css';
+import '../Faltas/Faltas.css';
 
 function Faltas() {
 
