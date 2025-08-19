@@ -49,3 +49,19 @@ export const getMaterias = async () => {
 
 	return response.json();
 };
+
+export const registerMateria = async () => {
+	const response = await fetch(`${API_URL}/add_materia`, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+	});
+
+	if (!response.ok) {
+		const errorData = await responde.json();
+		throw new Error(errorData.message || "Erro ao cadastrar a matéria");
+	}
+
+	return response.json();
+}
