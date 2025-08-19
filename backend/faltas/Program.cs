@@ -42,3 +42,4 @@ public record AlunoDto(string nome_aluno, string email, string senha, string cur
 public record LoginDto(string email, string senha);
 public record MateriaDto(int materias_id, string codigo_materia, string nome_materia);
 public record MateriaAlunoDto(int aluno_id, int materias_id, string status, string semestre, string dias_semana, string horario_aula, string sala);
+public record MateriaAlunoInfo(string nome_materia, string sala, string dias_semana, string horario_aula);

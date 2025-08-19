@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
-import { getMaterias, registerMateria } from '../../services/api';
+import { getMaterias, registerMateria, getMateriasAluno } from '../../services/api';
 
 import CustomMultiSelect from '../../components/common/CustomMultiSelect';
 import { useAuth } from '../../contexts/AuthContext';
@@ -26,6 +26,8 @@ function Materias() {
 
     const [selectedHour, setSelectedHour] = useState('00');
     const [selectedMinute, setSelectedMinute] = useState('00');
+
+    const [materiasAluno, setMateriasAluno] = useState([]);
 
     const now = new Date();
     const year = now.getFullYear().toString().slice(-2);
@@ -73,10 +75,22 @@ function Materias() {
             setSelectedDias([]);
             setSelectedHour('00');
             setSelectedMinute('00');
+            fetchMateriasAluno();
         } catch (error) {
             toast.error(`Erro ao adicionar matéria: ${error.message}`);
         }
     }
+
+    const fetchMateriasAluno = async () => {
+        if (user && user.aluno) {
+            try {
+                const data = await getMateriasAluno(user.aluno.aluno_id);
+                setMateriasAluno(data);
+            } catch (err) {
+                console.error("Falha ao buscar matérias do aluno: ", err);
+            }
+        }
+    };
 
     useEffect(() => {
         const fetchMaterias = async () => {
@@ -91,8 +105,9 @@ function Materias() {
             }
         };
         fetchMaterias();
-    }, []);
-    
+        fetchMateriasAluno();
+    }, [user]);
+
     if (!user || !user.aluno) {
         return <div>Carregando informações do usuário...</div>;
     }
@@ -206,15 +221,17 @@ function Materias() {
                         <p className="card-subtitle">Semestre atual: <strong>{semestre}</strong></p>
 
                         <ul className="menu-list">
-                            <li>
-                                <div className="menu-item-content">
-                                    <span className="menu-icon">☆</span>
-                                    <div className="menu-text">
-                                        <span className="menu-label">Menu Label</span>
-                                        <span className="menu-description">Menu description.</span>
+                            {materiasAluno.map((materia, index) => (
+                                <li key={index}>
+                                    <div className="menu-item-content">
+                                        <span className="menu-icon">☆</span>
+                                        <div className="menu-text">
+                                            <span className="menu-label">{materia.nome_materia}</span>
+                                            <span className="menu-description">{`Sala: ${materia.sala} | Dias: ${materia.dias_semana} | Horário: ${materia.horario_aula}`}</span>
+                                        </div>
                                     </div>
-                                </div>
-                            </li>
+                                </li>
+                            ))}
                         </ul>
 
                     </div>

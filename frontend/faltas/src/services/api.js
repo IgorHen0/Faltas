@@ -66,3 +66,19 @@ export const registerMateria = async (materiaData) => {
 
 	return response.json();
 }
+
+export const getMateriasAluno = async (aluno_id) => {
+    const response = await fetch(`${API_URL}/aluno/${aluno_id}/materias`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Erro ao buscar as matérias do aluno");
+    }
+
+    return response.json();
+};

@@ -43,5 +43,28 @@ public static class MateriaAlunoEndpoints
                 return Results.Problem("Ocorreu um erro ao cadastrar a matéria.");
             }
         });
+
+        app.MapGet("/api/aluno/{aluno_id}/materias", async (int aluno_id, MySqlConnection db) =>
+        {
+            try
+            {
+                var sql =
+                        @"SELECT
+                            m.nome_materia, ma.sala, ma.dias_semana, ma.horario_aula
+                        FROM
+                            materia_aluno ma
+                        JOIN
+                            materias m ON ma.materias_id = m.materias_id
+                        WHERE
+                            ma.aluno_id = @aluno_id AND ma.status = 'Cursando'";
+                var materias = await db.QueryAsync<MateriaAlunoInfo>(sql, new { aluno_id });
+                return Results.Ok(materias);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erro ao buscar as matérias em curso: {ex.Message}");
+                return Results.Problem("Ocorreu um erro ao buscar as matérias em curso");
+            }
+        });
     }
 }
