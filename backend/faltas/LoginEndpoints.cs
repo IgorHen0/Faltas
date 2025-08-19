@@ -49,7 +49,10 @@ public static class LoginEndpoints
 
                 if (hashedPasswordFromDb == hashedPasswordToVerify)
                 {
-                    return Results.Ok(new { message = "Login realizado com sucesso!" });
+                    var sql_dados = "SELECT * FROM aluno WHERE email = @Email";
+                    var aluno = await db.QuerySingleOrDefaultAsync<dynamic>(sql_dados, new { Email = login.email });
+
+                    return Results.Ok(new { message = "Login realizado com sucesso!", aluno });
                 }
                 else
                 {

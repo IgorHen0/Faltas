@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import { loginUser } from '../../services/api';
+import { useAuth } from '../../contexts/AuthContext';
 import './Auth.css';
 
 function Login() {
@@ -9,6 +10,7 @@ function Login() {
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
     const [showPassword, setShowPassword] = useState(false);
+    const { login } = useAuth();
 
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
@@ -22,13 +24,14 @@ function Login() {
             return;
         }
 
-        const credentials = {
-            email: email,
-            senha: senha
-        };
+        // const credentials = {
+        //     email: email,
+        //     senha: senha
+        // };
 
         try {
-            await loginUser(credentials);
+            const userData = await loginUser({ email, senha });
+            login(userData);
             toast.success('Login realizado com sucesso!');
             window.location.href = '/dashboard';
         } catch (error) {

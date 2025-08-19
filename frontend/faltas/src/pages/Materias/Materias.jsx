@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { getMaterias, registerMateria } from '../../services/api';
 
 import CustomMultiSelect from '../../components/common/CustomMultiSelect';
+import { useAuth } from '../../contexts/AuthContext';
 
 import '../Dashboard/Dashboard.css';
 import '../Materias/Materias.css';
@@ -13,7 +14,7 @@ function Materias() {
     const now = new Date();
     const year = now.getFullYear().toString().slice(-2);
     const month = now.getMonth() + 1;
-    let semestre;
+    let semestre = '';
     if (month >= 1 && month <= 7) {
         semestre = `${year}/1`;
     } else {
@@ -24,17 +25,22 @@ function Materias() {
     const [selectedHour, setSelectedHour] = useState('00');
     const minutes = Array.from({ length: 12 }, (_, i) => (i * 5).toString().padStart(2, '0'));
     const [selectedMinute, setSelectedMinute] = useState('00');
-    const horario = '';
 
     const [materias, setMaterias] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
     const [selectedDias, setSelectedDias] = useState([]);
-    const aluno_id = '';
     const [materias_id, setMateriasId] = useState('');
     const [status, setStatus] = useState('Cursando');
     const [sala, setSala] = useState('');
+
+    const { user } = useAuth();
+    if (!user) {
+        return <div>Carregando...</div>;
+    }
+    console.log('informações: ', user.alunoID);
+    const alunoId = user.nome;
 
     const diasDaSemanaOptions = [
         { value: 'Segunda', label: 'Segunda-feira' },
@@ -51,7 +57,7 @@ function Materias() {
         const horarioFormatado = `${selectedHour}:${selectedMinute}`;
 
         const materiaData = {
-            aluno_id: aluno_id,
+            aluno_id: alunoId,
             materias_id: materias_id,
             status: status,
             semestre: semestre,
