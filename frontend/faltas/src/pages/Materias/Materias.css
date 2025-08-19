@@ -8,19 +8,18 @@ input {
 
 .faltas-layout {
   display: flex;
-  flex-wrap: wrap; /* Permite que as colunas quebrem em telas menores */
-  gap: 2.5rem; /* Espaçamento entre as colunas */
+  flex-wrap: wrap;
+  gap: 2.5rem;
   align-items: flex-start;
 }
 
-/* Estilo base para ambas as colunas */
 .card-column {
   background-color: #fff;
   border-radius: 20px;
   padding: 2rem;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  flex: 1; /* Faz com que ambas as colunas cresçam igualmente */
-  min-width: 300px; /* Largura mínima para responsividade */
+  flex: 1;
+  min-width: 300px;
 }
 
 .card-column h2 {
@@ -36,7 +35,6 @@ input {
     color: #6c757d;
 }
 
-/* Lista da coluna esquerda */
 .menu-list {
   list-style: none;
   padding: 0;
@@ -63,7 +61,7 @@ input {
 
 .menu-icon {
   font-size: 1.5rem;
-  color: #ffc107; /* Cor da estrela */
+  color: #ffc107;
 }
 
 .menu-text {
@@ -86,7 +84,6 @@ input {
     color: #333;
 }
 
-/* Formulário da coluna direita */
 .form-group {
   margin-bottom: 1.5rem;
 }
@@ -119,7 +116,7 @@ input {
   width: 100%;
   padding: 15px;
   border: none;
-  background-color: #343a40; /* Cor escura do botão */
+  background-color: #343a40;
   color: white;
   border-radius: 8px;
   font-size: 1em;
@@ -131,7 +128,6 @@ input {
   background-color: #495057;
 }
 
-/* Card principal da página */
 .materias-content-area {
   background-color: #fff;
   border-radius: 20px;
@@ -139,33 +135,29 @@ input {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
-/* Container para os filtros */
 .materias-filters {
   display: flex;
   gap: 1.5rem;
   margin-bottom: 2rem;
   flex-wrap: wrap;
-  align-items: flex-end; /* Alinha os itens na base */
+  align-items: flex-end;
 }
 
 .materias-filters .form-group {
-  flex: 1; /* Inputs crescem para preencher o espaço */
-  min-width: 150px; /* Largura mínima antes de quebrar a linha */
-  margin-bottom: 0; /* Remove a margem padrão para alinhar com o botão */
+  flex: 1;
+  min-width: 150px;
+  margin-bottom: 0;
 }
 
-/* Container para o seletor de tempo */
 .time-selector {
   display: flex;
   gap: 0.5rem;
 }
 
-/* Estilo específico para os selects de tempo para que eles se ajustem dentro do flex-container */
 .time-selector select {
   flex: 1;
 }
 
-/* Botão para adicionar o tempo */
 .add-time-button {
   padding: 12px 15px;
   border: none;

@@ -33,8 +33,10 @@ app.UseCors("AllowFrontend");
 // Mapeia os endpoints
 app.MapAlunoEndpoints();
 app.MapLoginEndpoints();
+app.MapMateriaEndpoints();
 
 app.Run();
 
 public record AlunoDto(string nome_aluno, string email, string senha, string curso);
 public record LoginDto(string email, string senha);
+public record MateriaDto(int materias_id, string codigo_materia, string nome_materia);
