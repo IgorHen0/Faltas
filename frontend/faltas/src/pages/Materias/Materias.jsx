@@ -6,6 +6,8 @@ import { getMaterias, registerMateria } from '../../services/api';
 import CustomMultiSelect from '../../components/common/CustomMultiSelect';
 import { useAuth } from '../../contexts/AuthContext';
 
+import Select from 'react-select';
+
 import '../Dashboard/Dashboard.css';
 import '../Materias/Materias.css';
 
@@ -62,11 +64,15 @@ function Materias() {
             sala: sala
         };
 
-        console.log('teste: ', materiaData);
-
         try {
             await registerMateria(materiaData);
             toast.success('Matéria adicionada com sucesso.');
+
+            setMateriasId('');
+            setSala('');
+            setSelectedDias([]);
+            setSelectedHour('00');
+            setSelectedMinute('00');
         } catch (error) {
             toast.error(`Erro ao adicionar matéria: ${error.message}`);
         }
@@ -90,6 +96,37 @@ function Materias() {
     if (!user || !user.aluno) {
         return <div>Carregando informações do usuário...</div>;
     }
+
+    const materiaOptions = materias.map((materia) => ({
+        value: materia.materias_id,
+        label: materia.nome_materia,
+    }));
+
+    const customSelectStyles = {
+        control: (provided, state) => ({
+            ...provided,
+            borderColor: state.isFocused ? '#eb8729ff' : '#ccc',
+            boxShadow: state.isFocused ? '0 0 0 2px rgba(74, 144, 226, 0.2)' : 'none',
+            borderRadius: '8px',
+            padding: '2px 4px',
+            minHeight: '38px',
+            '&:hover': { borderColor: '#eb8729ff' },
+        }),
+        placeholder: (provided) => ({
+            ...provided,
+            color: '#888',
+        }),
+        option: (provided, state) => ({
+            ...provided,
+            backgroundColor: state.isFocused ? '#f0f8ff' : 'white',
+            color: '#333',
+            cursor: 'pointer',
+        }),
+        singleValue: (provided) => ({
+            ...provided,
+            color: '#333',
+        }),
+    };
 
     return (
         <div className="dashboard-container">
@@ -116,22 +153,19 @@ function Materias() {
                 <div className="materias-content-area">
                     <form onSubmit={handleSubmit}>
                         <div className="materias-filters">
+                            
                             <div className="form-group">
                                 <label htmlFor="materia">Matéria</label>
-                                <select id="materia" value={materias_id} onChange={(e) => setMateriasId(e.target.value)} required disabled={loading}>
-                                    <option value="" disabled>
-                                        {loading ? 'Carregando...' : 'Selecione uma matéria'}
-                                    </option>
-                                    {error ? (
-                                        <option disabled>Erro ao carregar matérias</option>
-                                    ) : (
-                                        materias.map((materia) => (
-                                            <option key={materia.materias_id} value={materia.materias_id}>
-                                                {materia.nome_materia}
-                                            </option>
-                                        ))
-                                    )}
-                                </select>
+                                <Select
+                                    id="materia"
+                                    value={materiaOptions.find(opt => opt.value === materias_id) || null}
+                                    onChange={(selected) => setMateriasId(selected ? selected.value : '')}
+                                    options={materiaOptions}
+                                    isDisabled={loading || error}
+                                    placeholder={loading ? "Carregando..." : "Selecione uma matéria"}
+                                    isSearchable
+                                    styles={customSelectStyles}
+                                />
                             </div>
 
                             <div className="form-group">
@@ -168,8 +202,9 @@ function Materias() {
                     </form>
 
                     <div>
-                        <h2>Heading</h2>
-                        <p className="card-subtitle">Heading</p>
+                        <h2>Matérias em curso</h2>
+                        <p className="card-subtitle">Semestre atual: <strong>{semestre}</strong></p>
+
                         <ul className="menu-list">
                             <li>
                                 <div className="menu-item-content">
@@ -181,6 +216,7 @@ function Materias() {
                                 </div>
                             </li>
                         </ul>
+
                     </div>
                 </div>
             </main>

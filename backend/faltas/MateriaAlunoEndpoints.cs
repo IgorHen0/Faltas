@@ -18,7 +18,7 @@ public static class MateriaAlunoEndpoints
 
             try
             {
-                var sql = @"INSERT INTO materias_aluno(aluno_id, materias_id, status, semestre, dias_semana, horario_aula, sala) 
+                var sql = @"INSERT INTO materia_aluno(aluno_id, materias_id, status, semestre, dias_semana, horario_aula, sala) 
                             VALUES (@aluno_id, @materias_id, @status, @semestre, @dias_semana, @horario_aula, @sala)";
                 var result = await db.ExecuteAsync(sql, new
                 {

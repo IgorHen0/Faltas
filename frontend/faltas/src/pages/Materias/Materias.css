@@ -6,6 +6,10 @@ input {
     color: #000
 }
 
+h2 {
+  color: #000;
+}
+
 .faltas-layout {
   display: flex;
   flex-wrap: wrap;
