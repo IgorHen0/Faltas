@@ -3,7 +3,9 @@ import React,
     createContext,
     useState,
     useContext,
-    useEffect
+    useEffect,
+    useMemo,
+    useCallback
 } from 'react';
 
 const AuthContext = createContext(null);
@@ -14,22 +16,34 @@ export const AuthProvider = ({ children }) => {
     useEffect(() => {
         const storedUser = localStorage.getItem('user');
         if (storedUser) {
-            setUser(JSON.parse(storedUser));
+            try {
+                setUser(JSON.parse(storedUser));
+            } catch (error) {
+                console.error("Falha ao analisar dados do usuário no localStorage", error);
+                localStorage.removeItem('user');
+            }
         }
     }, []);
 
-    const login = (userData) => {
+    const login = useCallback((userData) => {
         localStorage.setItem('user', JSON.stringify(userData));
         setUser(userData);
-    };
+    }, []);
 
-    const logout = () => {
+    const logout = useCallback(() => {
         localStorage.removeItem('user');
         setUser(null);
-    };
+    }, []);
+
+    const value = useMemo(() => ({
+        user,
+        login,
+        logout
+    }), [user, login, logout]);
+
 
     return (
-        <AuthContext.Provider value={{ user, login, logout }}>
+        <AuthContext.Provider value={value}>
             {children}
         </AuthContext.Provider>
     );

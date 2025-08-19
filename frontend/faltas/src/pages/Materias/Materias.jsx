@@ -11,20 +11,7 @@ import '../Materias/Materias.css';
 
 function Materias() {
 
-    const now = new Date();
-    const year = now.getFullYear().toString().slice(-2);
-    const month = now.getMonth() + 1;
-    let semestre = '';
-    if (month >= 1 && month <= 7) {
-        semestre = `${year}/1`;
-    } else {
-        semestre = `${year}/2`;
-    }
-
-    const hours = Array.from({ length: 24 }, (_, i) => i.toString().padStart(2, '0'));
-    const [selectedHour, setSelectedHour] = useState('00');
-    const minutes = Array.from({ length: 12 }, (_, i) => (i * 5).toString().padStart(2, '0'));
-    const [selectedMinute, setSelectedMinute] = useState('00');
+    const { user } = useAuth();
 
     const [materias, setMaterias] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -35,12 +22,16 @@ function Materias() {
     const [status, setStatus] = useState('Cursando');
     const [sala, setSala] = useState('');
 
-    const { user } = useAuth();
-    if (!user) {
-        return <div>Carregando...</div>;
-    }
-    console.log('informações: ', user.alunoID);
-    const alunoId = user.nome;
+    const [selectedHour, setSelectedHour] = useState('00');
+    const [selectedMinute, setSelectedMinute] = useState('00');
+
+    const now = new Date();
+    const year = now.getFullYear().toString().slice(-2);
+    const month = now.getMonth() + 1;
+    const semestre = (month >= 1 && month <= 7) ? `${year}/1` : `${year}/2`;
+
+    const hours = Array.from({ length: 16 }, (_, i) => (i + 6).toString().padStart(2, '0'));
+    const minutes = Array.from({ length: 12 }, (_, i) => (i * 5).toString().padStart(2, '0'));
 
     const diasDaSemanaOptions = [
         { value: 'Segunda', label: 'Segunda-feira' },
@@ -53,28 +44,32 @@ function Materias() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        if (!user || !user.aluno) {
+            toast.error("Erro: Usuário não encontrado. Por favor, faça login novamente.");
+            return;
+        }
+
         const diasSemanaString = selectedDias.join(', ');
         const horarioFormatado = `${selectedHour}:${selectedMinute}`;
 
         const materiaData = {
-            aluno_id: alunoId,
-            materias_id: materias_id,
+            aluno_id: user.aluno.aluno_id,
+            materias_id: parseInt(materias_id),
             status: status,
             semestre: semestre,
-            sala: sala,
             dias_semana: diasSemanaString,
-            horario: horarioFormatado
+            horario_aula: horarioFormatado,
+            sala: sala
         };
 
-        console.log('Dados a serem enviados: ', materiaData);
+        console.log('teste: ', materiaData);
 
-        // try {
-        //     await resgisterMateria(materiaData);
-        //     toast.success('Matéria adicionada com sucesso.');
-        //     window.location.href = '/materias';
-        // } catch (error) {
-        //     toast.error(`Erro ao adicionar matéria: ${error.message}`);
-        // }
+        try {
+            await registerMateria(materiaData);
+            toast.success('Matéria adicionada com sucesso.');
+        } catch (error) {
+            toast.error(`Erro ao adicionar matéria: ${error.message}`);
+        }
     }
 
     useEffect(() => {
@@ -91,6 +86,10 @@ function Materias() {
         };
         fetchMaterias();
     }, []);
+    
+    if (!user || !user.aluno) {
+        return <div>Carregando informações do usuário...</div>;
+    }
 
     return (
         <div className="dashboard-container">
@@ -119,8 +118,8 @@ function Materias() {
                         <div className="materias-filters">
                             <div className="form-group">
                                 <label htmlFor="materia">Matéria</label>
-                                <select id="materia" value={materias_id} onChange={(e) => setMateriasId(e.target.value)} disabled={loading}>
-                                    <option value="" disabled selected>
+                                <select id="materia" value={materias_id} onChange={(e) => setMateriasId(e.target.value)} required disabled={loading}>
+                                    <option value="" disabled>
                                         {loading ? 'Carregando...' : 'Selecione uma matéria'}
                                     </option>
                                     {error ? (
@@ -146,7 +145,7 @@ function Materias() {
                                     options={diasDaSemanaOptions}
                                     selectedValues={selectedDias}
                                     onChange={setSelectedDias}
-                                    placeholder="Selecione até 3 dias"
+                                    placeholder="Selecione os dias"
                                     limit={3}
                                 />
                             </div>
@@ -155,15 +154,16 @@ function Materias() {
                                 <label htmlFor="horario">Horário</label>
                                 <div className="time-selector">
                                     <select aria-label="Horas" value={selectedHour} onChange={(e) => setSelectedHour(e.target.value)}>
+                                        <option value="00" disabled>00</option>
                                         {hours.map(hour => <option key={hour} value={hour}>{hour}</option>)}
                                     </select>
-                                    <select aria-label="Minutos" onChange={(e) => setSelectedMinute(e.target.value)} value={selectedMinute}>
+                                    <select aria-label="Minutos" value={selectedMinute} onChange={(e) => setSelectedMinute(e.target.value)}>
                                         {minutes.map(minute => <option key={minute} value={minute}>{minute}</option>)}
                                     </select>
                                 </div>
                             </div>
 
-                            <button className="addMateria">Adicionar</button>
+                            <button type="submit" className="addMateria">Adicionar</button>
                         </div>
                     </form>
 
@@ -179,42 +179,6 @@ function Materias() {
                                         <span className="menu-description">Menu description.</span>
                                     </div>
                                 </div>
-                            </li>
-                            <li>
-                                <div className="menu-item-content">
-                                    <span className="menu-icon">☆</span>
-                                    <div className="menu-text">
-                                        <span className="menu-label">Menu Label</span>
-                                        <span className="menu-description">Menu description.</span>
-                                    </div>
-                                </div>
-                            </li>
-                            <li>
-                                <div className="menu-item-content">
-                                    <span className="menu-icon">☆</span>
-                                    <div className="menu-text">
-                                        <span className="menu-label">Menu Label</span>
-                                        <span className="menu-description">Menu description.</span>
-                                    </div>
-                                </div>
-                            </li>
-                            <li>
-                                <div className="menu-item-content">
-                                    <span className="menu-icon">☆</span>
-                                    <div className="menu-text">
-                                        <span className="menu-label">Menu Label</span>
-                                        <span className="menu-description">Menu description.</span>
-                                    </div>
-                                </div>
-                            </li>
-                            <li>
-                                <div className="menu-item-content">
-                                    <span className="menu-icon">☆</span>
-                                    <div className="menu-text">
-                                        <span className="menu-label">Menu Label</span>
-                                        <span className="menu-description">Menu description.</span>
-                                    </div>
-                                </div>  
                             </li>
                         </ul>
                     </div>
