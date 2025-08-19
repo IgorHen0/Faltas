@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
-import { getMaterias } from '../../services/api';
+import { getMaterias, registerMateria } from '../../services/api';
 
-// 1. Importe o novo componente
 import CustomMultiSelect from '../../components/common/CustomMultiSelect';
 
 import '../Dashboard/Dashboard.css';
@@ -10,15 +10,32 @@ import '../Materias/Materias.css';
 
 function Materias() {
 
+    const now = new Date();
+    const year = now.getFullYear().toString().slice(-2);
+    const month = now.getMonth() + 1;
+    let semestre;
+    if (month >= 1 && month <= 7) {
+        semestre = `${year}/1`;
+    } else {
+        semestre = `${year}/2`;
+    }
+
     const hours = Array.from({ length: 24 }, (_, i) => i.toString().padStart(2, '0'));
+    const [selectedHour, setSelectedHour] = useState('00');
     const minutes = Array.from({ length: 12 }, (_, i) => (i * 5).toString().padStart(2, '0'));
+    const [selectedMinute, setSelectedMinute] = useState('00');
+    const horario = '';
 
     const [materias, setMaterias] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [selectedDias, setSelectedDias] = useState([]); // Este estado continua o mesmo
 
-    // 2. Defina as opções para os dias da semana
+    const [selectedDias, setSelectedDias] = useState([]);
+    const aluno_id = '';
+    const [materias_id, setMateriasId] = useState('');
+    const [status, setStatus] = useState('Cursando');
+    const [sala, setSala] = useState('');
+
     const diasDaSemanaOptions = [
         { value: 'Segunda', label: 'Segunda-feira' },
         { value: 'Terça', label: 'Terça-feira' },
@@ -26,6 +43,33 @@ function Materias() {
         { value: 'Quinta', label: 'Quinta-feira' },
         { value: 'Sexta', label: 'Sexta-feira' }
     ];
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        const diasSemanaString = selectedDias.join(', ');
+        const horarioFormatado = `${selectedHour}:${selectedMinute}`;
+
+        const materiaData = {
+            aluno_id: aluno_id,
+            materias_id: materias_id,
+            status: status,
+            semestre: semestre,
+            sala: sala,
+            dias_semana: diasSemanaString,
+            horario: horarioFormatado
+        };
+
+        console.log('Dados a serem enviados: ', materiaData);
+
+        // try {
+        //     await resgisterMateria(materiaData);
+        //     toast.success('Matéria adicionada com sucesso.');
+        //     window.location.href = '/materias';
+        // } catch (error) {
+        //     toast.error(`Erro ao adicionar matéria: ${error.message}`);
+        // }
+    }
 
     useEffect(() => {
         const fetchMaterias = async () => {
@@ -42,12 +86,9 @@ function Materias() {
         fetchMaterias();
     }, []);
 
-    // A função 'handleDiaChange' não é mais necessária aqui.
-
     return (
         <div className="dashboard-container">
             <aside className="sidebar">
-                {/* ...código da sidebar sem alterações... */}
                 <div className="user-icon">
                     <span><Link to="/dashboard">&#x1F464;</Link></span>
                 </div>
@@ -68,61 +109,59 @@ function Materias() {
                 </header>
 
                 <div className="materias-content-area">
-                    <div className="materias-filters">
-
-                        {/* ...outros form-groups... */}
-                        <div className="form-group">
-                            <label htmlFor="materia">Matéria</label>
-                            <select id="materia" disabled={loading}>
-                                <option value="" disabled selected>
-                                    {loading ? 'Carregando...' : 'Selecione uma matéria'}
-                                </option>
-                                {error ? (
-                                    <option disabled>Erro ao carregar matérias</option>
-                                ) : (
-                                    materias.map((materia, index) => (
-                                        <option key={index} value={materia.nome_materia}>
-                                            {materia.nome_materia}
-                                        </option>
-                                    ))
-                                )}
-                            </select>
-                        </div>
-
-                        <div className="form-group">
-                            <label htmlFor="sala">Sala</label>
-                            <input type="text" id="sala" placeholder="Digite a sala de aula" />
-                        </div>
-
-                        {/* 3. Substitua o <select> antigo pelo novo componente */}
-                        <div className="form-group">
-                            <label>Dias da Semana</label>
-                            <CustomMultiSelect
-                                options={diasDaSemanaOptions}
-                                selectedValues={selectedDias}
-                                onChange={setSelectedDias}
-                                placeholder="Selecione até 3 dias"
-                                limit={3}
-                            />
-                        </div>
-
-                        <div className="form-group">
-                            <label htmlFor="horario">Horário</label>
-                            <div className="time-selector">
-                                <select aria-label="Horas">
-                                    {hours.map(hour => <option key={hour} value={hour}>{hour}</option>)}
-                                </select>
-                                <select aria-label="Minutos">
-                                    {minutes.map(minute => <option key={minute} value={minute}>{minute}</option>)}
+                    <form onSubmit={handleSubmit}>
+                        <div className="materias-filters">
+                            <div className="form-group">
+                                <label htmlFor="materia">Matéria</label>
+                                <select id="materia" value={materias_id} onChange={(e) => setMateriasId(e.target.value)} disabled={loading}>
+                                    <option value="" disabled selected>
+                                        {loading ? 'Carregando...' : 'Selecione uma matéria'}
+                                    </option>
+                                    {error ? (
+                                        <option disabled>Erro ao carregar matérias</option>
+                                    ) : (
+                                        materias.map((materia) => (
+                                            <option key={materia.materias_id} value={materia.materias_id}>
+                                                {materia.nome_materia}
+                                            </option>
+                                        ))
+                                    )}
                                 </select>
                             </div>
-                        </div>
 
-                        <button className="add-time-button">Adicionar</button>
-                    </div>
+                            <div className="form-group">
+                                <label htmlFor="sala">Sala</label>
+                                <input type="text" value={sala} onChange={(e) => setSala(e.target.value)} id="sala" placeholder="Digite a sala de aula" />
+                            </div>
+
+                            <div className="form-group">
+                                <label>Dias da Semana</label>
+                                <CustomMultiSelect
+                                    options={diasDaSemanaOptions}
+                                    selectedValues={selectedDias}
+                                    onChange={setSelectedDias}
+                                    placeholder="Selecione até 3 dias"
+                                    limit={3}
+                                />
+                            </div>
+
+                            <div className="form-group">
+                                <label htmlFor="horario">Horário</label>
+                                <div className="time-selector">
+                                    <select aria-label="Horas" value={selectedHour} onChange={(e) => setSelectedHour(e.target.value)}>
+                                        {hours.map(hour => <option key={hour} value={hour}>{hour}</option>)}
+                                    </select>
+                                    <select aria-label="Minutos" onChange={(e) => setSelectedMinute(e.target.value)} value={selectedMinute}>
+                                        {minutes.map(minute => <option key={minute} value={minute}>{minute}</option>)}
+                                    </select>
+                                </div>
+                            </div>
+
+                            <button className="addMateria">Adicionar</button>
+                        </div>
+                    </form>
 
                     <div>
-                        {/* ...resto do seu JSX sem alterações... */}
                         <h2>Heading</h2>
                         <p className="card-subtitle">Heading</p>
                         <ul className="menu-list">

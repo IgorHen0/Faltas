@@ -50,16 +50,17 @@ export const getMaterias = async () => {
 	return response.json();
 };
 
-export const registerMateria = async () => {
+export const registerMateria = async (materiaData) => {
 	const response = await fetch(`${API_URL}/add_materia`, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
 		},
+        body: JSON.stringify(materiaData),
 	});
 
 	if (!response.ok) {
-		const errorData = await responde.json();
+		const errorData = await response.json();
 		throw new Error(errorData.message || "Erro ao cadastrar a matéria");
 	}
 
