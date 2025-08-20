@@ -82,3 +82,20 @@ export const getMateriasAluno = async (aluno_id) => {
 
     return response.json();
 };
+
+export const addFaltas = async (data) => {
+	const response = await fetch(`${API_URL}/add_faltas`, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify(data),
+	});
+
+	if (!response.ok) {
+		const errorData = await response.json();
+		throw new Error(errorData.message || "Erro ao adicionar falta");
+	}
+
+	return response.json();
+}

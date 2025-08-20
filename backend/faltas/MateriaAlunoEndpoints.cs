@@ -50,7 +50,7 @@ public static class MateriaAlunoEndpoints
             {
                 var sql =
                         @"SELECT
-                            m.nome_materia, ma.sala, ma.dias_semana, ma.horario_aula
+                            m.materias_id, m.nome_materia, ma.sala, ma.dias_semana, ma.horario_aula
                         FROM
                             materia_aluno ma
                         JOIN
