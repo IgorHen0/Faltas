@@ -45,3 +45,4 @@ public record MateriaDto(int materias_id, string codigo_materia, string nome_mat
 public record MateriaAlunoDto(int aluno_id, int materias_id, string status, string semestre, string dias_semana, string horario_aula, string sala);
 public record MateriaAlunoInfo(int materias_id, string nome_materia, string sala, string dias_semana, string horario_aula);
 public record FaltasDto(int aluno_id, int materias_id, string data, string motivo);
+public record QtdFaltas(string nome_materia, long total_faltas);

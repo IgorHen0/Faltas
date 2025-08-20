@@ -49,5 +49,33 @@ public static class AddFaltasEndpoints
                 return Results.Problem("Ocorreu um erro ao adicionar nova falta.");
             }
         });
+
+        app.MapGet("/api/aluno/{aluno_id}/faltas", async (int aluno_id, MySqlConnection db) =>
+        {
+            try
+            {
+                var sql = @"
+                            SELECT
+                                m.nome_materia,
+                                COUNT(f.faltas_id) AS total_faltas
+                            FROM
+                                materia_aluno ma
+                            LEFT JOIN
+                                faltas f ON ma.materia_aluno_id = f.materia_aluno_id
+                            JOIN
+                                materias m ON m.materias_id = ma.materias_id
+                            WHERE
+                                ma.aluno_id = @aluno_id
+                            GROUP BY
+                                ma.materias_id";
+                var faltas = await db.QueryAsync<QtdFaltas>(sql, new { aluno_id });
+                return Results.Ok(faltas);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erro ao obter número de faltas: {ex.Message}");
+                return Results.Problem("Ocorreu um erro ao obter número de faltas.");
+            }
+        });
     }
 }

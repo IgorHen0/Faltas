@@ -99,3 +99,19 @@ export const addFaltas = async (data) => {
 
 	return response.json();
 }
+
+export const getFaltas = async (aluno_id, materias_id) => {
+	const response = await fetch(`${API_URL}/aluno/${aluno_id}/faltas`, {
+		method: 'GET',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+	});
+
+	if (!response.ok) {
+		const errorData = await response.json();
+		throw new Error(errorData.message || "Erro ao recuperar número de faltas.");
+	}
+
+	return response.json();
+}

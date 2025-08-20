@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
 import Select from 'react-select';
 
-import { addFaltas, getMateriasAluno } from '../../services/api';
+import { addFaltas, getFaltas, getMateriasAluno } from '../../services/api';
 import { useAuth } from '../../contexts/AuthContext';
 
 import { customSelectStyles } from '../../styles/selectStyles';
@@ -18,9 +18,21 @@ function Faltas() {
 	const [materias_id, setMateriasId] = useState('');
 	const [data, setData] = useState('');
 	const [motivo, setMotivo] = useState('');
+	const [qtdFaltas, setQtdFaltas] = useState([]);
 
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
+
+	const fetchQtdFaltas = async () => {
+		if (user && user.aluno) {
+			try {
+				const data = await getFaltas(user.aluno.aluno_id);
+				setQtdFaltas(data);
+			} catch (err) {
+				console.error("Falha ao buscar quantidade de faltas: ", err);
+			}
+		}
+	};
 
 	useEffect(() => {
 		const fetchMateriasAluno = async () => {
@@ -39,7 +51,10 @@ function Faltas() {
 			}
 		};
 		fetchMateriasAluno();
+		fetchQtdFaltas();
 	}, [user]);
+
+	console.log('teste: ', qtdFaltas);
 
     const materiaOptions = materiasAluno.map((materia) => ({
         value: materia.materias_id,
