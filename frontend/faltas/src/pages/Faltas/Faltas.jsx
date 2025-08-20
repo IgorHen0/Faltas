@@ -118,51 +118,19 @@ function Faltas() {
 						<h2>Quantidade de faltas</h2>
 						<p className="card-subtitle">Lista de faltas por matéria</p>
 						<ul className="menu-list">
-							<li>
-								<div className="menu-item-content">
-									<span className="menu-icon">☆</span>
-									<div className="menu-text">
-										<span className="menu-label">Estrutura de Dados</span>
+
+							{qtdFaltas.map((faltas, index) => (
+								<li key={index}>
+									<div className='menu-item-content'>
+										<span className='menu-icon'>☆</span>
+										<div className='menu-text'>
+											<span className='menu-label'>{faltas.nome_materia}</span>
+										</div>
 									</div>
-								</div>
-								<span className="menu-extra">10 A</span>
-							</li>
-							<li>
-								<div className="menu-item-content">
-									<span className="menu-icon">☆</span>
-									<div className="menu-text">
-										<span className="menu-label">Matemática Discreta</span>
-									</div>
-								</div>
-								<span className="menu-extra">10 A</span>
-							</li>
-							<li>
-								<div className="menu-item-content">
-									<span className="menu-icon">☆</span>
-									<div className="menu-text">
-										<span className="menu-label">Fund. Teórica da Computação</span>
-									</div>
-								</div>
-								<span className="menu-extra">12 A</span>
-							</li>
-							<li>
-								<div className="menu-item-content">
-									<span className="menu-icon">☆</span>
-									<div className="menu-text">
-										<span className="menu-label">Cálculo I</span>
-									</div>
-								</div>
-								<span className="menu-extra">8 A</span>
-							</li>
-							<li>
-								<div className="menu-item-content">
-									<span className="menu-icon">☆</span>
-									<div className="menu-text">
-										<span className="menu-label">Algoritmos e Lógica de Programação</span>
-									</div>
-								</div>
-								<span className="menu-extra">6 A</span>
-							</li>
+									<span className='menu-extra'>{faltas.total_faltas}</span>
+								</li>
+							))}
+
 						</ul>
 					</div>
 

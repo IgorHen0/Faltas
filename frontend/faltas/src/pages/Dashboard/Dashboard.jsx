@@ -1,9 +1,12 @@
-import React from 'react';
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { getFaltas } from '../../services/api';
+import { useAuth } from '../../contexts/AuthContext';
+
 import './Dashboard.css';
-import Faltas from '../Faltas/Faltas';
 
 function Dashboard() {
+
     const now = new Date();
     const year = now.getFullYear().toString().slice(-2);
     const month = now.getMonth() + 1;
@@ -13,6 +16,23 @@ function Dashboard() {
     } else {
         semestre = `${year}/2`;
     }
+
+    const { user } = useAuth();
+    const [qtdFaltas, setQtdFaltas] = useState([]);
+
+    useEffect(() => {
+        const fetchQtdFaltas = async () => {
+            if (user && user.aluno) {
+                try {
+                    const data = await getFaltas(user.aluno.aluno_id);
+                    setQtdFaltas(data);
+                } catch (err) {
+                    console.error("Falha ao buscar quantidade de faltas: ", err);
+                }
+            }
+        };
+        fetchQtdFaltas();
+    }, [user]);
 
     return (
         <div className="dashboard-container">
@@ -37,6 +57,7 @@ function Dashboard() {
                 </header>
                 <div className="widgets-grid">
                     <div className="widget-row four-cols">
+
                         <div className="widget">
                             <div className="widget-icon-container">
                                 <span className="widget-icon">👥</span>
@@ -46,6 +67,7 @@ function Dashboard() {
                                 <p className="widget-value">{semestre}</p>
                             </div>
                         </div>
+
                         <div className="widget">
                             <div className="widget-icon-container">
                                 <span className="widget-icon">📚</span>
@@ -55,6 +77,7 @@ function Dashboard() {
                                 <p className="widget-value">0</p>
                             </div>
                         </div>
+
                         <div className="widget">
                             <div className="widget-icon-container">
                                 <span className="widget-icon">📝</span>
@@ -64,6 +87,7 @@ function Dashboard() {
                                 <p className="widget-value">15/08 - MD</p>
                             </div>
                         </div>
+
                         <div className="widget">
                             <div className="widget-icon-container">
                                 <span className="widget-icon">📅</span>
@@ -73,49 +97,29 @@ function Dashboard() {
                                 <p className="widget-value">05/09 - ED</p>
                             </div>
                         </div>
+
                     </div>
 
                     <div className="widget-row two-cols">
 
                         <div className="widget-large">
+
                             <div className="upcoming-events-header">
                                 <span className="header-icon">🗓️</span>
                                 <h3>Faltas Totais</h3>
                             </div>
+
                             <ul className="events-list">
-                                <li className="event-item">
-                                    <div className="event-details">
-                                        <p className="event-title">MD</p>
-                                    </div>
-                                    <div className="event-date">
-                                        <span className="day">0</span>
-                                    </div>
-                                </li>
-                                <li className="event-item">
-                                    <div className="event-details">
-                                        <p className="event-title">FTC</p>
-                                    </div>
-                                    <div className="event-date">
-                                        <span className="day">0</span>
-                                    </div>
-                                </li>
-                                <li className="event-item">
-                                    <div className="event-details">
-                                        <p className="event-title">ED</p>
-                                    </div>
-                                    <div className="event-date">
-                                        <span className="day">0</span>
-                                    </div>
-                                </li>
-                                <li className="event-item">
-                                    <div className="event-details">
-                                        <p className="event-title">ALC</p>
-                                    </div>
-                                    <div className="event-date">
-                                        <span className="day">0</span>
-                                    </div>
-                                </li>
+                                {qtdFaltas.map((faltas, index) => (
+                                    <li key={index} className="event-item"> 
+                                        <div className="event-details">
+                                            <p className="event-title">{faltas.nome_materia}</p>
+                                        </div>
+                                        <span className="day">{faltas.total_faltas}</span>
+                                    </li>
+                                ))}
                             </ul>
+
                         </div>
 
                         <div className="widget-large">

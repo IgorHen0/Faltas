@@ -67,7 +67,9 @@ public static class AddFaltasEndpoints
                             WHERE
                                 ma.aluno_id = @aluno_id
                             GROUP BY
-                                ma.materias_id";
+                                ma.materias_id
+                            ORDER BY
+                                m.nome_materia";
                 var faltas = await db.QueryAsync<QtdFaltas>(sql, new { aluno_id });
                 return Results.Ok(faltas);
             }
