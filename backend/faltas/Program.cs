@@ -36,6 +36,7 @@ app.MapLoginEndpoints();
 app.MapMateriaEndpoints();
 app.MapMateriaAlunoEndpoints();
 app.MapAddFaltas();
+app.MapAddProvas();
 
 app.Run();
 
@@ -46,3 +47,4 @@ public record MateriaAlunoDto(int aluno_id, int materias_id, string status, stri
 public record MateriaAlunoInfo(int materias_id, string nome_materia, string sala, string dias_semana, string horario_aula);
 public record FaltasDto(int aluno_id, int materias_id, string data, string motivo);
 public record QtdFaltas(string nome_materia, long total_faltas);
+public record ProvasDto(int aluno_id, int materias_id, string data_prova, string conteudo, string horario_prova);

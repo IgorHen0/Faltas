@@ -115,3 +115,20 @@ export const getFaltas = async (aluno_id, materias_id) => {
 
 	return response.json();
 }
+
+export const addProvas = async (provaData) => {
+	const response = await fetch(`${API_URL}/add_provas`, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify(provaData),
+	});
+
+	if (!response.ok) {
+		const errorData = await response.json();
+		throw new Error(errorData.message || "Erro ao inserir nova data de prova.");
+	}
+
+	return response.json();
+}
