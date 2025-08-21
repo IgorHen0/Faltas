@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
 import Select from 'react-select';
 
-import { addProvas, getMateriasAluno } from '../../services/api';
+import { addProvas, getMateriasAluno, getProvas } from '../../services/api';
 import { useAuth } from '../../contexts/AuthContext';
 
 import { customSelectStyles } from '../../styles/selectStyles';
@@ -20,6 +20,7 @@ function Notas() {
 	const [conteudo, setConteudo] = useState('');
 	const [selectedHour, setSelectedHour] = useState('00');
 	const [selectedMinute, setSelectedMinute] = useState('00');
+	const [provas, setProvas] = useState([]);
 
 	const hours = Array.from({ length: 16 }, (_, i) => (i + 6).toString().padStart(2, '0'));
     const minutes = Array.from({ length: 12 }, (_, i) => (i * 5).toString().padStart(2, '0'));
@@ -65,6 +66,22 @@ function Notas() {
 		catch (error) {
 			toast.error(`Erro ao adicionar nova prova: ${error.message}`);
 		}
+	};
+
+	const fetchProvas = async () => {
+		if (user && user.aluno) {
+			try {
+				const data = await getProvas(user.aluno.aluno_id);
+				setProvas(data);
+			} catch (err) {
+				console.error("Falha ao obter as provas do aluno: ", err);
+				setError(err);
+			} finally {
+				setLoading(false);
+			}
+		} else {
+			setLoading(false);
+		}
 	}
 
 	useEffect(() => {
@@ -84,9 +101,10 @@ function Notas() {
 			}
 		};
 		fetchMateriasAluno();
+		fetchProvas();
 	}, [user]);
 
-	console.log('teste: ', materiasAluno);
+	console.log('teste: ', provas);
 
 	return (
 		<div className="dashboard-container">
@@ -116,16 +134,29 @@ function Notas() {
 
 						<ul className="menu-list">
 
-							<li>
-								<div className="menu-item-content">
-									<span className="menu-icon">☆</span>
-									<div className="menu-text">
-										<span className="menu-label">Menu Label</span>
-										<span className="menu-description">Menu description.</span>
-									</div>
-								</div>
-								<span className="menu-extra">10 A</span>
-							</li>
+							{provas.map((provas, index) => {
+								let dataFormatada = provas.data_prova;
+								if (dataFormatada) {
+									const dateObj = new Date(dataFormatada);
+									const dia = String(dateObj.getDate()).padStart(2, '0');
+									const mes = String(dateObj.getMonth() + 1).padStart(2, '0');
+									const ano = dateObj.getFullYear();
+									dataFormatada = `${dia}/${mes}/${ano}`;
+								}
+								return (
+									<li key={index}>
+										<div className="menu-item-content">
+											<span className="menu-icon">☆</span>
+											<div className="menu-text">
+												<span className="menu-label">{provas.nome_materia}</span>
+												<span className="menu-description">
+													{`Data: ${dataFormatada} | Conteúdo: ${provas.conteudo} | Horário: ${provas.horario_prova}`}
+												</span>
+											</div>
+										</div>
+									</li>
+								);
+							})}
 
 						</ul>
 					</div>

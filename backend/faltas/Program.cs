@@ -48,3 +48,4 @@ public record MateriaAlunoInfo(int materias_id, string nome_materia, string sala
 public record FaltasDto(int aluno_id, int materias_id, string data, string motivo);
 public record QtdFaltas(string nome_materia, long total_faltas);
 public record ProvasDto(int aluno_id, int materias_id, string data_prova, string conteudo, string horario_prova);
+public record Provas(string nome_materia, DateTime data_prova, string conteudo, string horario_prova);

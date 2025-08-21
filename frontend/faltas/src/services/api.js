@@ -132,3 +132,19 @@ export const addProvas = async (provaData) => {
 
 	return response.json();
 }
+
+export const getProvas = async (aluno_id) => {
+	const response = await fetch(`${API_URL}/aluno/${aluno_id}/provas`, {
+		method: 'GET',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+	});
+
+	if (!response.ok) {
+		const errorData = await response.json();
+		throw new Error(errorData.message || "Erro ao obter as provas do aluno.");
+	}
+
+	return response.json();
+}

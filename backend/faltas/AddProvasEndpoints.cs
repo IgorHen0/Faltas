@@ -52,5 +52,37 @@ public static class AddProvasEndpoints
                 return Results.Problem("Ocorreu um erro ao adicionar nova prova.");
             }
         });
+
+        app.MapGet("/api/aluno/{aluno_id}/provas", async (int aluno_id, MySqlConnection db) =>
+        {
+            try
+            {
+                var sql = @"
+                            SELECT
+                                m.nome_materia,
+                                p.data_prova,
+                                p.conteudo,
+                                p.horario_prova
+                            FROM
+                                materia_aluno ma
+                            LEFT JOIN
+                                provas p ON ma.materia_aluno_id = p.materia_aluno_id
+                            JOIN
+                                materias m ON m.materias_id = ma.materias_id
+                            WHERE
+                                ma.aluno_id = @aluno_id
+                                AND p.data_prova >= CURDATE()
+                            ORDER BY
+                                p.data_prova ASC
+                            LIMIT 5";
+                var provas = await db.QueryAsync<Provas>(sql, new { aluno_id });
+                return Results.Ok(provas);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erro ao obter as provas do aluno: {ex.Message}");
+                return Results.Problem("Erro ao obter as provas do aluno.");
+            }
+        });
     }
 }
