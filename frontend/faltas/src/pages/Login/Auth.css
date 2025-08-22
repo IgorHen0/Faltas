@@ -8,6 +8,10 @@ body {
   min-height: 100vh;
 }
 
+input {
+  background-color: #fff !important;
+}
+
 .auth-container {
   display: flex;
   background-color: #fff;
