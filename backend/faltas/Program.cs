@@ -30,13 +30,13 @@ if (app.Environment.IsDevelopment())
 
 app.UseCors("AllowFrontend");
 
-// Mapeia os endpoints
 app.MapAlunoEndpoints();
 app.MapLoginEndpoints();
 app.MapMateriaEndpoints();
 app.MapMateriaAlunoEndpoints();
 app.MapAddFaltas();
 app.MapAddProvas();
+app.MapAddTrabalhos();
 
 app.Run();
 
@@ -49,3 +49,5 @@ public record FaltasDto(int aluno_id, int materias_id, string data, string motiv
 public record QtdFaltas(string nome_materia, long total_faltas);
 public record ProvasDto(int aluno_id, int materias_id, string data_prova, string conteudo, string horario_prova);
 public record Provas(string nome_materia, DateTime data_prova, string conteudo, string horario_prova);
+public record TrabalhosDto(int aluno_id, int materias_id, string nome_trabalho, string data_trabalho, int pontos);
+public record Trabalhos(string nome_materia, string nome_trabalho, DateTime data_trabalho, int pontos);

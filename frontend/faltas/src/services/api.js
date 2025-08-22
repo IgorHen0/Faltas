@@ -148,3 +148,36 @@ export const getProvas = async (aluno_id) => {
 
 	return response.json();
 }
+
+export const addTrabalhos = async (trabalhosData) => {
+	const response = await fetch(`${API_URL}/add_trabalhos`, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify(trabalhosData),
+	});
+
+	if (!response.ok) {
+		const errorData = await response.json();
+		throw new Error(errorData.message || "Erro ao adicionar trabalho.");
+	}
+
+	return response.json();
+}
+
+export const getTrabalhos = async (aluno_id) => {
+	const response = await fetch(`${API_URL}/aluno/${aluno_id}/trabalhos`, {
+		method: 'GET',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+	});
+
+	if (!response.ok) {
+		const errorData = await response.json();
+		throw new Error(errorData.message || "Erro ao obter trabalhos.");
+	}
+
+	return response.json();
+}
