@@ -37,6 +37,7 @@ app.MapMateriaAlunoEndpoints();
 app.MapAddFaltas();
 app.MapAddProvas();
 app.MapAddTrabalhos();
+app.MapObtemFaltasSemana();
 
 app.Run();
 
@@ -51,3 +52,4 @@ public record ProvasDto(int aluno_id, int materias_id, string data_prova, string
 public record Provas(string nome_materia, DateTime data_prova, string conteudo, string horario_prova);
 public record TrabalhosDto(int aluno_id, int materias_id, string nome_trabalho, string data_trabalho, int pontos);
 public record Trabalhos(string nome_materia, string nome_trabalho, DateTime data_trabalho, int pontos);
+public record FaltasSemana(long total);

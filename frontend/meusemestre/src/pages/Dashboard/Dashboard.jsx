@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { getFaltas, getProvas, getTrabalhos } from '../../services/api';
+import { getFaltas, getProvas, getTrabalhos, getFaltasSemana } from '../../services/api';
 import { useAuth } from '../../contexts/AuthContext';
 
 import './Dashboard.css';
@@ -27,6 +27,7 @@ function Dashboard() {
     const [qtdFaltas, setQtdFaltas] = useState([]);
     const [proxProva, setProxProva] = useState([]);
     const [proxTrabalho, setProxTrabalho] = useState([]);
+    const [faltasSemana, setFaltasSemana] = useState([]);
 
     const fetchProva = async () => {
         if (user && user.aluno) {
@@ -50,7 +51,18 @@ function Dashboard() {
         }
     }
 
-    console.log(proxTrabalho[0]);
+    const fetchFaltasSemana = async () => {
+        if (user && user.aluno) {
+            try {
+                const data = await getFaltasSemana(user.aluno.aluno_id);
+                setFaltasSemana(data);
+            } catch (err) {
+                console.log("Falha ao obter faltas da semana: ", err);
+            }
+        }
+    }
+
+    console.log(faltasSemana[0]);
 
     useEffect(() => {
         const fetchQtdFaltas = async () => {
@@ -66,6 +78,7 @@ function Dashboard() {
         fetchQtdFaltas();
         fetchProva();
         fetchTrabalho();
+        fetchFaltasSemana();
     }, [user]);
 
     return (
@@ -108,7 +121,9 @@ function Dashboard() {
                             </div>
                             <div className="widget-content">
                                 <p className="widget-title">Faltas Essa Semana</p>
-                                <p className="widget-value">0</p>
+                                <p className="widget-value">
+                                    {faltasSemana?.[0]?.total ?? 0}
+                                </p>
                             </div>
                         </div>
 
