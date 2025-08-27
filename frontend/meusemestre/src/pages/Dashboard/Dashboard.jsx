@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { getFaltas } from '../../services/api';
+import { getFaltas, getProvas, getTrabalhos } from '../../services/api';
 import { useAuth } from '../../contexts/AuthContext';
 
 import './Dashboard.css';
@@ -17,8 +17,40 @@ function Dashboard() {
         semestre = `${year}/2`;
     }
 
+    const ignoredWords = ['E', 'DA', 'DO', 'DAS', 'DOS'];
+    const getInitials = (name) => {
+        if (!name) return '';
+        return name.split(' ').filter(word => !ignoredWords.includes(word)).map(word => word[0]).join('').toUpperCase();
+    };
+
     const { user } = useAuth();
     const [qtdFaltas, setQtdFaltas] = useState([]);
+    const [proxProva, setProxProva] = useState([]);
+    const [proxTrabalho, setProxTrabalho] = useState([]);
+
+    const fetchProva = async () => {
+        if (user && user.aluno) {
+            try {
+                const data = await getProvas(user.aluno.aluno_id);
+                setProxProva(data);
+            } catch (err) {
+                console.error("Falha ao obter provas: ", err);
+            }
+        }
+    }
+
+    const fetchTrabalho = async () => {
+        if (user && user.aluno) {
+            try {
+                const data = await getTrabalhos(user.aluno.aluno_id);
+                setProxTrabalho(data);
+            } catch (err) {
+                console.log("Falha ao obter trabalhos: ", err);
+            }
+        }
+    }
+
+    console.log(proxTrabalho[0]);
 
     useEffect(() => {
         const fetchQtdFaltas = async () => {
@@ -32,6 +64,8 @@ function Dashboard() {
             }
         };
         fetchQtdFaltas();
+        fetchProva();
+        fetchTrabalho();
     }, [user]);
 
     return (
@@ -83,8 +117,13 @@ function Dashboard() {
                                 <span className="widget-icon">📝</span>
                             </div>
                             <div className="widget-content">
-                                <p className="widget-title">Próxima Prova/Lista</p>
-                                <p className="widget-value">15/08 - MD</p>
+                                <p className="widget-title">Próxima Prova</p>
+                                <p className="widget-value">
+                                    {proxProva.length > 0 ?
+                                        `${getInitials(proxProva[0].nome_materia)} - ${new Date(proxProva[0].data_prova).toLocaleDateString('pt-BR')}`
+                                        : 'Não há próximas provas'
+                                    }
+                                </p>
                             </div>
                         </div>
 
@@ -94,7 +133,12 @@ function Dashboard() {
                             </div>
                             <div className="widget-content">
                                 <p className="widget-title">Próximo Trabalho</p>
-                                <p className="widget-value">05/09 - ED</p>
+                                <p className="widget-value">
+                                    {proxTrabalho.length > 0 ?
+                                        `${getInitials(proxTrabalho[0].nome_materia)} - ${new Date(proxTrabalho[0].data_trabalho).toLocaleDateString('pt-BR')}`
+                                        : 'Não há próximos trabalhos'
+                                    }
+                                </p>
                             </div>
                         </div>
 
